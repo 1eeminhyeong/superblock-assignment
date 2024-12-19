@@ -1,2 +1,2 @@
 export * from "./generateRandomBalloonPosition"
-export * from "./useBalloon"
+export * from "./findConnectedGroup"
