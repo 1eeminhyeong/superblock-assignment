@@ -26,6 +26,8 @@ export function useBalloon() {
           Modal.success({
             title: "🎉",
             content: "축하합니다! 게임에서 승리하셨습니다. 확인을 누르면 게임판이 리셋됩니다.",
+            afterClose: () => updateBalloonPosition(),
+            keyboard: false,
           })
         }
       } else {
