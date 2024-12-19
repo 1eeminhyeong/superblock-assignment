@@ -1,17 +1,9 @@
 import { Grid } from "../"
-import { updateBalloonPositionAtom } from "../../store"
+import { useBalloon } from "../../core"
+import { balloonPositionAtom, matrixAtom, updateBalloonPositionAtom } from "../../store"
 import { StyledBalloon, StyledNotBalloon } from "./BalloonGrid.styles"
 import { Modal } from "antd"
-import { useSetAtom } from "jotai"
-
-interface BalloonGridProps {
-  matrix: number
-  balloonPositions: number[][]
-}
-
-const Balloon = () => {
-  return <StyledBalloon>🎈</StyledBalloon>
-}
+import { useAtomValue, useSetAtom } from "jotai"
 
 const NotBallon = () => {
   const [modal, contextHolder] = Modal.useModal()
@@ -25,7 +17,6 @@ const NotBallon = () => {
           modal.warning({
             title: "😅",
             content: <p>게임에서 패배했습니다. 게임판을 리셋합니다.</p>,
-            footer: (_, { OkBtn }) => <OkBtn />,
             afterClose: () => updateBalloonPosition(),
             keyboard: false,
           })
@@ -35,10 +26,18 @@ const NotBallon = () => {
   )
 }
 
-const BalloonGrid = ({ matrix, balloonPositions }: BalloonGridProps) => {
+const BalloonGrid = () => {
+  const matrix = useAtomValue(matrixAtom)
+  const balloonPosition = useAtomValue(balloonPositionAtom)
+  const { handleBalloonClick } = useBalloon()
+
   const renderItem = (rowIndex: number, colIndex: number) => {
-    const isBalloon = balloonPositions.some(([r, c]) => r === rowIndex && c === colIndex)
-    return isBalloon ? <Balloon /> : <NotBallon />
+    const isBalloon = balloonPosition.some(([r, c]) => r === rowIndex && c === colIndex)
+    return isBalloon ? (
+      <StyledBalloon onClick={() => handleBalloonClick(rowIndex, colIndex)}>🎈</StyledBalloon>
+    ) : (
+      <NotBallon />
+    )
   }
 
   return <Grid rows={matrix} cols={matrix} renderItem={renderItem} />
