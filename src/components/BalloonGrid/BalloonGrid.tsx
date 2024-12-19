@@ -40,7 +40,7 @@ const BalloonGrid = () => {
     )
   }
 
-  return <Grid rows={matrix} cols={matrix} renderItem={renderItem} />
+  return <Grid style={{ marginTop: 20 }} rows={matrix} cols={matrix} renderItem={renderItem} />
 }
 
 export default BalloonGrid
