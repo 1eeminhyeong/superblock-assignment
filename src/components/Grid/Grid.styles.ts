@@ -3,7 +3,6 @@ import styled from "styled-components"
 
 export const GridWrap = styled.div`
   margin: 0 auto;
-  width: 100%;
 `
 
 export const StyledRow = styled(Row)``

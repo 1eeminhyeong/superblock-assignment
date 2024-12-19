@@ -13,7 +13,7 @@ const Grid = ({ rows, cols, renderItem, style }: GridProps) => {
   return (
     <GridWrap style={style}>
       {Array.from({ length: rows }).map((_, y) => (
-        <StyledRow key={y} gutter={[8, 8]} justify='center'>
+        <StyledRow style={{ flexFlow: "nowrap" }} key={y} gutter={[8, 8]} justify='center'>
           {Array.from({ length: cols }).map((_, x) => (
             <StyledCol key={x}>{renderItem(x, y)}</StyledCol>
           ))}

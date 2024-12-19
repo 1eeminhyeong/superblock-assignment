@@ -8,7 +8,7 @@ const InputNumber = () => {
   const [matrix, setMatrix] = useAtom(matrixAtom)
 
   return (
-    <>
+    <div>
       matrix :
       <InputNumberAntd
         style={{ marginLeft: 4 }}
@@ -20,7 +20,7 @@ const InputNumber = () => {
           resetBalloonPosition()
         }}
       />
-    </>
+    </div>
   )
 }
 
