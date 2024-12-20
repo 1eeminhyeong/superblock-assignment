@@ -1,3 +1,4 @@
 export * from "./Grid"
 export * from "./BalloonGrid"
-export * from "./InputNumber"
+export * from "./MatrixController"
+export * from "./GameRule"
