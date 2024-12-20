@@ -1,5 +1,10 @@
 import { getRandomBalloonCount } from "./getRandomBalloonCount"
 
+/**
+ * This function generates a randomized array of [rows, columns] with randomly generated BalloonCount values.
+ * @param matrix matrix used in the grid
+ * @returns {number[][]}
+ */
 export const generateRandomBalloonPosition = (matrix: number): [number, number][] => {
   const randomBalloonCount = getRandomBalloonCount(matrix)
 

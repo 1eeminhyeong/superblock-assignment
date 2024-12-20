@@ -5,7 +5,14 @@ const directions = [
   [0, 1],
 ]
 
-export function findConnectedGroup(start: number[], positions: number[][]) {
+/**
+ * This function returns the groups associated with a specific position.
+ * It uses the DFS algorithm.
+ * @param start Where to start position in DFS
+ * @param positions The positions to be checked
+ * @returns {number[][]}
+ */
+export function findConnectedGroup(start: number[], positions: number[][]): number[][] {
   const visited = new Set<string>()
   const group: number[][] = []
   const stack = [start]
@@ -24,7 +31,13 @@ export function findConnectedGroup(start: number[], positions: number[][]) {
     directions.forEach(([dr, dc]) => {
       const newRow = r + dr
       const newCol = c + dc
-      if (positions.some(([br, bc]) => br === newRow && bc === newCol) && !visited.has(key([newRow, newCol]))) {
+
+      if (
+        newRow >= 0 &&
+        newCol >= 0 &&
+        positions.some(([br, bc]) => br === newRow && bc === newCol) &&
+        !visited.has(key([newRow, newCol]))
+      ) {
         stack.push([newRow, newCol])
       }
     })
