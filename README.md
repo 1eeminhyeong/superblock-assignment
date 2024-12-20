@@ -1,5 +1,7 @@
 # SuperBlock Assignment
 
+Demo: https://luxury-crisp-d30233.netlify.app/
+
 ## 🚀 설치 및 실행
 
 ```bash
@@ -36,6 +38,8 @@ $ pnpm test:run
 
 - 단위 테스트: DFS 탐색 로직 및 풍선 그룹 계산과 같은 핵심 함수에 대해 작성
 - 통합 테스트: BalloonGrid 컴포넌트의 렌더링, 풍선 클릭 이벤트, 모달 호출 등을 검증
+
+![테스트 결과](images/test_result.jpg)
 
 ## 🌐 상태 관리
 
