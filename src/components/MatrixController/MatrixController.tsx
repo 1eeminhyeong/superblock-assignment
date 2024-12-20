@@ -1,9 +1,9 @@
-import { matrixAtom, updateBalloonPositionAtom } from "@/store"
-import { Button, Flex, InputNumber } from "antd"
+import { matrixAtom, resetBalloonPositionAtom } from "@/store"
+import { Button, Flex, InputNumber, Modal } from "antd"
 import { useAtom, useSetAtom } from "jotai"
 
 const MatrixController = () => {
-  const updateBalloonPosition = useSetAtom(updateBalloonPositionAtom)
+  const resetBalloonPosition = useSetAtom(resetBalloonPositionAtom)
   const [matrix, setMatrix] = useAtom(matrixAtom)
 
   return (
@@ -17,11 +17,21 @@ const MatrixController = () => {
           value={matrix}
           onChange={(v) => {
             setMatrix(v!)
-            updateBalloonPosition()
+            resetBalloonPosition()
           }}
         />
       </div>
-      <Button onClick={() => updateBalloonPosition()}>Reset Matrix</Button>
+      <Button
+        onClick={() =>
+          Modal.confirm({
+            title: "게임을 초기화하시겠습니까?",
+            content: "게임판이 초기화됩니다.",
+            onOk: () => resetBalloonPosition(),
+          })
+        }
+      >
+        Reset Matrix
+      </Button>
     </Flex>
   )
 }

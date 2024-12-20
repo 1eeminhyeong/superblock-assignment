@@ -3,14 +3,14 @@ import { useCallback } from "react"
 import { StyledBalloon, StyledNotBalloon } from "./BalloonGrid.styles"
 import { Grid } from "@/components"
 import { findConnectedGroup } from "@/core"
-import { balloonPositionAtom, matrixAtom, updateBalloonPositionAtom } from "@/store"
+import { balloonPositionAtom, matrixAtom, resetBalloonPositionAtom } from "@/store"
 import { Modal } from "antd"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
 
 const BalloonGrid = () => {
   const matrix = useAtomValue(matrixAtom)
   const [balloonPosition, setBalloonPosition] = useAtom(balloonPositionAtom)
-  const updateBalloonPosition = useSetAtom(updateBalloonPositionAtom)
+  const resetBalloonPosition = useSetAtom(resetBalloonPositionAtom)
 
   const handleBalloonClick = useCallback(
     (row: number, col: number) => {
@@ -28,7 +28,7 @@ const BalloonGrid = () => {
           Modal.success({
             title: "🎉",
             content: "축하합니다! 게임에서 승리하셨습니다. 확인을 누르면 게임판이 리셋됩니다.",
-            afterClose: () => updateBalloonPosition(),
+            afterClose: () => resetBalloonPosition(),
             keyboard: false,
           })
         }
@@ -36,7 +36,7 @@ const BalloonGrid = () => {
         Modal.warning({
           title: "게임에서 패배했습니다. 😅",
           content: "터트릴수 있는 가장 많은 풍선을 클릭해야합니다. 게임판을 리셋합니다.",
-          afterClose: () => updateBalloonPosition(),
+          afterClose: () => resetBalloonPosition(),
           keyboard: false,
         })
       }
@@ -56,7 +56,7 @@ const BalloonGrid = () => {
           Modal.warning({
             title: "게임에서 패배했습니다. 😅",
             content: "터트릴수 있는 가장 많은 풍선을 클릭해야합니다. 게임판을 리셋합니다.",
-            afterClose: () => updateBalloonPosition(),
+            afterClose: () => resetBalloonPosition(),
             keyboard: false,
           })
         }}
@@ -64,7 +64,7 @@ const BalloonGrid = () => {
     )
   }
 
-  return <Grid style={{ marginTop: 20 }} rows={matrix} cols={matrix} renderItem={renderItem} />
+  return <Grid style={{ marginTop: 20, paddingLeft: 20 }} rows={matrix} cols={matrix} renderItem={renderItem} />
 }
 
 export default BalloonGrid
