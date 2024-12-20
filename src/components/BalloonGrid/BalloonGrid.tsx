@@ -46,13 +46,16 @@ const BalloonGrid = () => {
   const renderItem = (rowIndex: number, colIndex: number) => {
     const isBalloon = balloonPosition.some(([r, c]) => r === rowIndex && c === colIndex)
     return isBalloon ? (
-      <StyledBalloon onClick={() => handleBalloonClick(rowIndex, colIndex)}>🎈</StyledBalloon>
+      <StyledBalloon data-testid={`${rowIndex}-${colIndex}`} onClick={() => handleBalloonClick(rowIndex, colIndex)}>
+        🎈
+      </StyledBalloon>
     ) : (
       <StyledNotBalloon
+        data-testid='not-balloon'
         onClick={() => {
           Modal.warning({
-            title: "😅",
-            content: <p>게임에서 패배했습니다. 게임판을 리셋합니다.</p>,
+            title: "게임에서 패배했습니다. 😅",
+            content: "터트릴수 있는 가장 많은 풍선을 클릭해야합니다. 게임판을 리셋합니다.",
             afterClose: () => updateBalloonPosition(),
             keyboard: false,
           })
