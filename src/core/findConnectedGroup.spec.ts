@@ -20,6 +20,8 @@ const balloonPosition = [
   [5, 3],
 ]
 
+const DEFAULT_MATRIX = 6
+
 describe("findConnectedGroup Function", () => {
   it("should return all adjacent [rowIndex, colIndex]", () => {
     const result = [
@@ -34,18 +36,18 @@ describe("findConnectedGroup Function", () => {
       [4, 3],
       [5, 3],
     ]
-    const positions2x1 = findConnectedGroup([2, 1], balloonPosition).sort()
+    const positions2x1 = findConnectedGroup([2, 1], balloonPosition, DEFAULT_MATRIX).sort()
 
     expect(positions2x1).toEqual(result)
     result.forEach((pos) => {
-      expect(findConnectedGroup(pos, balloonPosition).sort()).toEqual(result)
+      expect(findConnectedGroup(pos, balloonPosition, DEFAULT_MATRIX).sort()).toEqual(result)
     })
   })
 
   it("should return itself if there is no adjacent element.", () => {
     const noAdjacentPos = [5, 1]
 
-    const positions = findConnectedGroup(noAdjacentPos, balloonPosition)
+    const positions = findConnectedGroup(noAdjacentPos, balloonPosition, DEFAULT_MATRIX)
     expect(positions).toEqual([noAdjacentPos])
   })
 })

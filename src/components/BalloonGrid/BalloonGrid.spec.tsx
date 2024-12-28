@@ -1,6 +1,6 @@
 import BalloonGrid from "./BalloonGrid"
 import { findConnectedGroup, getLargestGroupLength } from "@/core"
-import { balloonPositionAtom } from "@/store"
+import { balloonPositionAtom, matrixAtom } from "@/store"
 import { render, renderHook, waitFor } from "@testing-library/react"
 import { Modal } from "antd"
 import { useAtomValue } from "jotai"
@@ -37,12 +37,13 @@ describe("BallooGrid Component", () => {
   it("should render a warning modal, if the most connected balloon is not clicked.", () => {
     const rendered = render(<BalloonGrid />)
 
-    const { result } = renderHook(() => useAtomValue(balloonPositionAtom))
+    const { result: balloonPosition } = renderHook(() => useAtomValue(balloonPositionAtom))
+    const { result: matrix } = renderHook(() => useAtomValue(matrixAtom))
 
-    const largestGroupLength = getLargestGroupLength(result.current)
+    const largestGroupLength = getLargestGroupLength(balloonPosition.current, matrix.current)
 
-    result.current.forEach((pos) => {
-      const connectedGroup = findConnectedGroup(pos, result.current).length
+    balloonPosition.current.forEach((pos) => {
+      const connectedGroup = findConnectedGroup(pos, balloonPosition.current, matrix.current).length
       if (largestGroupLength > connectedGroup) {
         const [row, col] = pos
         rendered.getByTestId(`${row}-${col}`).click()
@@ -57,13 +58,14 @@ describe("BallooGrid Component", () => {
   it("should render a success modal, if all balloons are clicked.", async () => {
     const rendered = render(<BalloonGrid />)
 
-    const { result } = renderHook(() => useAtomValue(balloonPositionAtom))
+    const { result: balloonPosition } = renderHook(() => useAtomValue(balloonPositionAtom))
+    const { result: matrix } = renderHook(() => useAtomValue(matrixAtom))
 
-    while (result.current.length > 0) {
-      const largestGroupLength = getLargestGroupLength(result.current)
+    while (balloonPosition.current.length > 0) {
+      const largestGroupLength = getLargestGroupLength(balloonPosition.current, matrix.current)
 
-      const target = result.current.find((pos) => {
-        const connectedGroup = findConnectedGroup(pos, result.current).length
+      const target = balloonPosition.current.find((pos) => {
+        const connectedGroup = findConnectedGroup(pos, balloonPosition.current, matrix.current).length
         return largestGroupLength === connectedGroup
       })
 

@@ -38,7 +38,9 @@ describe("getLargestGroupLength Function", () => {
       [3, 2],
     ]
 
-    const largestGroupLength = getLargestGroupLength(balloonPosition)
+    const MATRIX = 6
+
+    const largestGroupLength = getLargestGroupLength(balloonPosition, MATRIX)
     expect(largestGroupLength).toBe(7)
   })
 
@@ -49,11 +51,13 @@ describe("getLargestGroupLength Function", () => {
       [1, 0],
       [1, 1],
     ]
+    const MATRIX = 2
+
     const findConnectedGroupSpy = vi.spyOn(findConnectedGroupModule, "findConnectedGroup")
 
-    const largestGroupLength = getLargestGroupLength(balloonPosition)
+    const largestGroupLength = getLargestGroupLength(balloonPosition, MATRIX)
     expect(largestGroupLength).toBe(4)
     expect(findConnectedGroupSpy).toBeCalledTimes(1)
-    expect(findConnectedGroupSpy).toBeCalledWith([0, 0], balloonPosition)
+    expect(findConnectedGroupSpy).toBeCalledWith([0, 0], balloonPosition, MATRIX)
   })
 })

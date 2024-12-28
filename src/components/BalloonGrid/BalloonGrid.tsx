@@ -14,14 +14,14 @@ const BalloonGrid = () => {
 
   const handleBalloonClick = useCallback(
     (row: number, col: number) => {
-      const connectedGroup = findConnectedGroup([row, col], balloonPosition)
+      const connectedGroup = findConnectedGroup([row, col], balloonPosition, matrix)
       const newPosition = balloonPosition.filter(([r, c]) => !connectedGroup.some(([gr, gc]) => gr === r && gc === c))
 
       /**
        * Fix for recalculating groups that have already been calculated in `newPosition`.
        * This is to prevent the same group from being recalculated.
        */
-      const largestGroupLength = getLargestGroupLength(newPosition)
+      const largestGroupLength = getLargestGroupLength(newPosition, matrix)
 
       if (connectedGroup.length >= largestGroupLength) {
         setBalloonPosition(newPosition)

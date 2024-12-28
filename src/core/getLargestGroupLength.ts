@@ -6,12 +6,12 @@ import { findConnectedGroup } from "./findConnectedGroup"
  * @param balloonPosition balloonPosition to calculate
  * @returns {number}
  */
-export function getLargestGroupLength(balloonPosition: number[][]): number {
+export function getLargestGroupLength(balloonPosition: number[][], matrix: number): number {
   const map = new Map<string, number>()
 
   balloonPosition.forEach(([r, c]) => {
     if (!map.has(`${r}-${c}`)) {
-      const connected = findConnectedGroup([r, c], balloonPosition)
+      const connected = findConnectedGroup([r, c], balloonPosition, matrix)
       connected.forEach(([gr, gc]) => map.set(`${gr}-${gc}`, connected.length))
     }
   })

@@ -12,7 +12,7 @@ const directions = [
  * @param positions The positions to be checked
  * @returns {number[][]}
  */
-export function findConnectedGroup(start: number[], positions: number[][]): number[][] {
+export function findConnectedGroup(start: number[], positions: number[][], matrix: number): number[][] {
   const visited = new Set<string>()
   const group: number[][] = []
   const stack = [start]
@@ -35,6 +35,8 @@ export function findConnectedGroup(start: number[], positions: number[][]): numb
       if (
         newRow >= 0 &&
         newCol >= 0 &&
+        newRow < matrix &&
+        newCol < matrix &&
         positions.some(([br, bc]) => br === newRow && bc === newCol) &&
         !visited.has(key([newRow, newCol]))
       ) {
