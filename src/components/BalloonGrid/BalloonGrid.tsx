@@ -2,7 +2,7 @@ import { useCallback } from "react"
 
 import { StyledBalloon, StyledNotBalloon } from "./BalloonGrid.styles"
 import { Grid } from "@/components"
-import { findConnectedGroup } from "@/core"
+import { findConnectedGroup, getLargestGroupLength } from "@/core"
 import { balloonPositionAtom, matrixAtom, resetBalloonPositionAtom } from "@/store"
 import { Modal } from "antd"
 import { useAtom, useAtomValue, useSetAtom } from "jotai"
@@ -17,9 +17,11 @@ const BalloonGrid = () => {
       const connectedGroup = findConnectedGroup([row, col], balloonPosition)
       const newPosition = balloonPosition.filter(([r, c]) => !connectedGroup.some(([gr, gc]) => gr === r && gc === c))
 
-      const largestGroupLength = Math.max(
-        ...newPosition.map((position) => findConnectedGroup(position, balloonPosition).length)
-      )
+      /**
+       * Fix for recalculating groups that have already been calculated in `newPosition`.
+       * This is to prevent the same group from being recalculated.
+       */
+      const largestGroupLength = getLargestGroupLength(newPosition)
 
       if (connectedGroup.length >= largestGroupLength) {
         setBalloonPosition(newPosition)
@@ -43,6 +45,7 @@ const BalloonGrid = () => {
     },
     [balloonPosition]
   )
+
   const renderItem = (rowIndex: number, colIndex: number) => {
     const isBalloon = balloonPosition.some(([r, c]) => r === rowIndex && c === colIndex)
     return isBalloon ? (
@@ -64,7 +67,7 @@ const BalloonGrid = () => {
     )
   }
 
-  return <Grid style={{ marginTop: 20, paddingLeft: 20 }} rows={matrix} cols={matrix} renderItem={renderItem} />
+  return <Grid style={{ marginTop: 20, paddingLeft: 20, paddingBottom: 40 }} rows={matrix} cols={matrix} renderItem={renderItem} />
 }
 
 export default BalloonGrid

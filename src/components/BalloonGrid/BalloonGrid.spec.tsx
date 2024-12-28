@@ -1,5 +1,5 @@
 import BalloonGrid from "./BalloonGrid"
-import { findConnectedGroup } from "@/core"
+import { findConnectedGroup, getLargestGroupLength } from "@/core"
 import { balloonPositionAtom } from "@/store"
 import { render, renderHook, waitFor } from "@testing-library/react"
 import { Modal } from "antd"
@@ -39,11 +39,11 @@ describe("BallooGrid Component", () => {
 
     const { result } = renderHook(() => useAtomValue(balloonPositionAtom))
 
-    const largestBalloonGroup = Math.max(...result.current.map((pos) => findConnectedGroup(pos, result.current).length))
+    const largestGroupLength = getLargestGroupLength(result.current)
 
     result.current.forEach((pos) => {
       const connectedGroup = findConnectedGroup(pos, result.current).length
-      if (largestBalloonGroup > connectedGroup) {
+      if (largestGroupLength > connectedGroup) {
         const [row, col] = pos
         rendered.getByTestId(`${row}-${col}`).click()
 
@@ -60,13 +60,11 @@ describe("BallooGrid Component", () => {
     const { result } = renderHook(() => useAtomValue(balloonPositionAtom))
 
     while (result.current.length > 0) {
-      const largestBalloonGroup = Math.max(
-        ...result.current.map((pos) => findConnectedGroup(pos, result.current).length)
-      )
+      const largestGroupLength = getLargestGroupLength(result.current)
 
       const target = result.current.find((pos) => {
         const connectedGroup = findConnectedGroup(pos, result.current).length
-        return largestBalloonGroup === connectedGroup
+        return largestGroupLength === connectedGroup
       })
 
       if (!target) break
